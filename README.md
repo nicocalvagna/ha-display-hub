@@ -1,21 +1,19 @@
 # HA Display Hub
 
-HA Display Hub is a lightweight display server designed to work alongside Home Assistant.
+A lightweight multi-display server for Raspberry Pi and Linux devices.
 
-Instead of driving displays directly from Home Assistant, a dedicated server manages one or more physical displays connected to a Raspberry Pi or any Linux device.
+It exposes a simple TCP/JSON protocol so Home Assistant or any other client can control multiple physical displays connected to the server.
 
-The communication protocol is simple, fast and based on TCP + JSON, allowing clients to update multiple displays simultaneously.
+Initial target:
 
-## Planned features
+- Raspberry Pi
+- 4 x HD44780 16x2 LCD displays
+- I2C backpack adapters
+- One I2C bus with different addresses
+- Headless operation through SSH and systemd
 
-- HD44780 LCD (I²C)
-- Multiple displays on the same I²C bus
-- TCP/JSON protocol
-- Multiple independent clients
-- Screen priorities
-- Widgets (text, bars, gauges, clocks, icons)
-- OLED support
-- VFD support
-- Extensible backend architecture
+Protocol example:
 
-The goal is to become a generic display server for Home Assistant and other automation systems.
+```json
+{"cmd":"display","target":"rack1","lines":["Exterior","13.7 C"]}
+```

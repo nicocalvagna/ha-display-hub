@@ -1,0 +1,15 @@
+[Unit]
+Description=HA Display Hub
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/ha-display-hub
+ExecStart=/opt/ha-display-hub/.venv/bin/python /opt/ha-display-hub/server/display_server.py -c /opt/ha-display-hub/config.yaml
+Restart=always
+RestartSec=5
+User=pi
+
+[Install]
+WantedBy=multi-user.target

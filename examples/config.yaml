@@ -1,0 +1,24 @@
+server:
+  listen: "0.0.0.0"
+  port: 4510
+
+displays:
+  - id: "rack1"
+    driver: "mock"
+    width: 16
+    height: 2
+
+  - id: "rack2"
+    driver: "mock"
+    width: 16
+    height: 2
+
+  - id: "rack3"
+    driver: "mock"
+    width: 16
+    height: 2
+
+  - id: "rack4"
+    driver: "mock"
+    width: 16
+    height: 2
