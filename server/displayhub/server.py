@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 from displayhub import __version__
 from displayhub.config import load_config
-from displayhub.drivers.mock import MockDisplay
+from displayhub.drivers.factory import DriverFactory
 
 
 class DisplayHub:
@@ -14,18 +14,14 @@ class DisplayHub:
         self._load_displays()
 
     def _load_displays(self):
-        for item in self.config.get("displays", []):
-            display_id = item["id"]
-            driver = item.get("driver", "mock")
-            width = int(item.get("width", 16))
-            height = int(item.get("height", 2))
 
-            if driver != "mock":
-                raise ValueError(f"Unsupported driver in this version: {driver}")
+    for cfg in self.config.get("displays", []):
 
-            display = MockDisplay(display_id, width, height)
-            display.init()
-            self.displays[display_id] = display
+        display = DriverFactory.create(cfg)
+
+        display.init()
+
+        self.displays[cfg["id"]] = display
 
     def handle(self, request: Dict[str, Any]) -> Dict[str, Any]:
         cmd = request.get("cmd")
