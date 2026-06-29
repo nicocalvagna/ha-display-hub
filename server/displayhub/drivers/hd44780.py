@@ -34,6 +34,14 @@ class HD44780:
     def write_char(self, char):
         self._send(ord(char), self.RS)
 
+    def create_char(self, location, pattern):
+        location = int(location) & 0x7
+        self.command(0x40 | (location << 3))
+        for row in pattern[:8]:
+            self.write_char(chr(row & 0x1F))
+
+
+
     def init(self):
         time.sleep(0.05)
 
