@@ -14,14 +14,10 @@ class DisplayHub:
         self._load_displays()
 
     def _load_displays(self):
-
-    for cfg in self.config.get("displays", []):
-
-        display = DriverFactory.create(cfg)
-
-        display.init()
-
-        self.displays[cfg["id"]] = display
+        for cfg in self.config.get("displays", []):
+            display = DriverFactory.create(cfg)
+            display.init()
+            self.displays[cfg["id"]] = display
 
     def handle(self, request: Dict[str, Any]) -> Dict[str, Any]:
         cmd = request.get("cmd")
@@ -68,7 +64,6 @@ class Handler(socketserver.StreamRequestHandler):
                 response = self.hub.handle(request)
             except Exception as exc:
                 response = {"status": "error", "error": str(exc)}
-
             self.wfile.write((json.dumps(response) + "\n").encode("utf-8"))
 
 
@@ -77,10 +72,8 @@ def run(config_path: str):
     server_cfg = config.get("server", {})
     listen = server_cfg.get("listen", "0.0.0.0")
     port = int(server_cfg.get("port", 4510))
-
     hub = DisplayHub(config)
     Handler.hub = hub
-
     with socketserver.ThreadingTCPServer((listen, port), Handler) as server:
         print(f"HA Display Hub listening on {listen}:{port}", flush=True)
         server.serve_forever()

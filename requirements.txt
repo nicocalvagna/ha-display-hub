@@ -1,1 +1,2 @@
 PyYAML>=6.0
+smbus2>=0.5
